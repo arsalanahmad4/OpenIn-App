@@ -16,7 +16,7 @@
         android:theme="@style/Theme.OpeninApp.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DashboardActivity"
+            android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
