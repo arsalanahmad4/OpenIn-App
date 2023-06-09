@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:cardCornerRadius="8dp"
+            android:paddingTop="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/placeholderimage" />
+
+            <TextView
+                android:id="@+id/tvMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/tvClickNumber"
+                android:layout_toEndOf="@id/ivIcon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tool:text="Sample link name..." />
+
+            <TextView
+                android:id="@+id/tvClickNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tool:text="2323"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="2dp"/>
+
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvMainText"
+                android:layout_alignBottom="@+id/ivIcon"
+                android:layout_toStartOf="@+id/tvClickNumber"
+                android:layout_toEndOf="@id/ivIcon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/dark_trucks_text"
+                android:textSize="12sp"
+                tool:text="22 Aug 2022"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/tvClicks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/dark_trucks_text"
+                android:textSize="12sp"
+                android:text="Clicks"
+                android:layout_marginStart="18dp"
+                android:layout_below="@id/tvClickNumber"
+                android:layout_alignBottom="@+id/ivIcon"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivIcon"
+            android:background="@drawable/dotted_box"
+            android:padding="12dp"
+            android:textSize="12sp"
+            android:textColor="@color/link_text_color"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxLength="50"
+            app:drawableEndCompat="@drawable/ic_copy" />
+    </LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>
