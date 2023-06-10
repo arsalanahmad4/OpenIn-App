@@ -1,5 +1,6 @@
 package com.example.openinapp.ui.dashboard.links
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,23 +11,31 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.openinapp.R
 import com.example.openinapp.data.model.RecentLink
+import com.example.openinapp.data.model.TopLink
 import com.example.openinapp.databinding.FragmentLinksBinding
-import com.example.openinapp.ui.dashboard.links.adapter.MyAdapter
+import com.example.openinapp.ui.dashboard.links.adapter.RecentLinksAdapter
+import com.example.openinapp.ui.dashboard.links.adapter.TopLinksAdapter
 import com.example.openinapp.util.Resource
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
-class LinksFragment : Fragment() {
+class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Callbacks {
 
     private lateinit var linksViewModel: LinksViewModel
 
     private var _binding: FragmentLinksBinding? = null
     private val binding get() = _binding!!
 
-    var adapter: MyAdapter? = null
-    private var dataList = mutableListOf<RecentLink>()
+    private var recentLinksAdapter: RecentLinksAdapter? = null
+    private var mainList: MutableList<RecentLink> = ArrayList()
+    private val dummyList: MutableList<RecentLink> = ArrayList()
+
+    private var topLinksAdapter : TopLinksAdapter? = null
+
+    private var topLinksList : MutableList<TopLink> = ArrayList()
+    private var dummyTopLinksList : MutableList<TopLink> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,10 +69,29 @@ class LinksFragment : Fragment() {
                     _binding?.layoutClicks?.tvMainClicksText?.text = response.data?.today_clicks.toString()
                     _binding?.layoutSource?.tvMainSourceText?.text = response.data?.top_source
                     _binding?.layoutLocation?.tvMainLocationText?.text = response.data?.top_location
+                    mainList.clear()
+                    dummyList.clear()
+                    topLinksList.clear()
+                    dummyTopLinksList.clear()
                     if(response.data?.data?.recent_links!= null){
-                        dataList = response.data.data.recent_links
+                        mainList = (response.data.data.recent_links)
+                        if(mainList.size != 0 && mainList.size>=4){
+                            for (i in 0..3) {
+                                dummyList.add(mainList[i])
+                            }
+                        }
+                        recentLinksAdapter?.notifyDataSetChanged()
                     }
-                    adapter = response.data?.data?.recent_links?.let { MyAdapter(it) }
+
+                    if(response.data?.data?.top_links!= null){
+                        topLinksList = (response.data.data.top_links)
+                        if(topLinksList.size != 0 && topLinksList.size>=4){
+                            for (i in 0..3) {
+                                dummyTopLinksList.add(topLinksList[i])
+                            }
+                        }
+                        topLinksAdapter?.notifyDataSetChanged()
+                    }
 
                 }
                 is Resource.Error -> {
@@ -77,23 +105,30 @@ class LinksFragment : Fragment() {
     }
 
     private fun bindView() {
-        // Set up RecyclerView
 
-        _binding?.rvLinks?.layoutManager = LinearLayoutManager(requireContext())
-        _binding?.rvLinks?.adapter = adapter
+        _binding?.rvRecentLinks?.layoutManager = LinearLayoutManager(requireContext())
+        _binding?.rvTopLinks?.layoutManager = LinearLayoutManager(requireContext())
 
-        val initialItems = dataList.take(4) // Get the first 4 items from the data list
-        adapter?.addItems(initialItems)
+        topLinksAdapter = TopLinksAdapter(dummyTopLinksList)
+        topLinksAdapter!!.setCallback(this)
+        topLinksAdapter!!.setWithFooter(true)
+        _binding?.rvTopLinks?.adapter = topLinksAdapter
 
-        _binding?.ivSettings?.setOnClickListener {
-            adapter?.setShowAllData(true)
-        }
+        recentLinksAdapter = RecentLinksAdapter(dummyList)
+        recentLinksAdapter!!.setCallback(this)
+        recentLinksAdapter!!.setWithFooter(true)
+        _binding?.rvRecentLinks?.adapter = recentLinksAdapter
+
         _binding?.toggleGroup?.addOnButtonCheckedListener { toggleButtonGroup, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.btnTopLinks -> {}
+                    R.id.btnTopLinks -> {
+                        _binding?.rvRecentLinks?.visibility = View.GONE
+                        _binding?.rvTopLinks?.visibility = View.VISIBLE
+                    }
                     R.id.btnRecentLinks -> {
-
+                        _binding?.rvTopLinks?.visibility = View.GONE
+                        _binding?.rvRecentLinks?.visibility = View.VISIBLE
                     }
                 }
             } else {
@@ -163,6 +198,35 @@ class LinksFragment : Fragment() {
 
         // create a data object with the data sets
         return LineData(set1)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onClickLoadMore() {
+        recentLinksAdapter!!.setWithFooter(false) // hide footer
+
+        //dummyList.clear()
+
+        for (i in 4 until mainList.size) {
+            dummyList.add(mainList[i])
+        }
+
+        recentLinksAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun onItemClicked(genreName: String) {
+
+    }
+
+    override fun onClickLoadMoreTopLinks() {
+        topLinksAdapter!!.setWithFooter(false)
+        for (i in 4 until topLinksList.size) {
+            dummyTopLinksList.add(topLinksList[i])
+        }
+        topLinksAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun onTopLinksItemClicked(genreName: String) {
+
     }
 
 }

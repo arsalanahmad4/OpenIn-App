@@ -14,4 +14,9 @@
     <color name="dotted_line_color">#A6C7FF</color>
     <color name="link_text_color">#0E6FFF</color>
     <color name="dotted_box_color">#E8F1FF</color>
+
+    <color name="light_green_outline">#4AD15F</color>
+    <color name="light_green_background">#E2F1E5</color>
+    <color name="light_blue_outline">#0E6FFF</color>
+    <color name="light_blue_background">#E8F1FF</color>
 </resources>

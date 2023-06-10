@@ -142,11 +142,42 @@
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTopLinks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvLinks"
+                android:id="@+id/rvRecentLinks"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Talk with us"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:background="@drawable/rectangular_green_box"
+                android:drawableStart="@drawable/ic_whatsapp"
+                android:drawablePadding="8dp"
+                android:layout_margin="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Frequently Asked Questions"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:background="@drawable/rectangular_blue_box"
+                android:drawableStart="@drawable/ic_question_mark"
+                android:drawablePadding="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="64dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
