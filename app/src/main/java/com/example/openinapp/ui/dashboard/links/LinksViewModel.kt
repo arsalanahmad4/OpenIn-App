@@ -1,4 +1,4 @@
-package com.example.openinapp.ui
+package com.example.openinapp.ui.dashboard.links
 
 import android.app.Application
 import android.content.Context
@@ -7,16 +7,17 @@ import androidx.lifecycle.*
 import com.example.openinapp.OpeninApplication
 import com.example.openinapp.data.DashboardRepository
 import com.example.openinapp.data.model.DashboardResponse
+import com.example.openinapp.util.MutableAppropriateLiveData
 import com.example.openinapp.util.Resource
 import com.example.openinapp.util.hasInternetConnection
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
-class DashboardViewModel(private val dashboardRepository: DashboardRepository, app: Application):AndroidViewModel(app) {
+class LinksViewModel(private val dashboardRepository: DashboardRepository, app: Application):AndroidViewModel(app) {
 
-    private val _dashboardResponse = MutableLiveData<Resource<DashboardResponse>>()
-    val dashboardResponse: LiveData<Resource<DashboardResponse>> = _dashboardResponse
+    private val _dashboardResponse = MutableAppropriateLiveData<Resource<DashboardResponse>>()
+    val dashboardResponseResult: LiveData<Resource<DashboardResponse>> = _dashboardResponse
 
     fun getAllThreads(authToken: String) {
         viewModelScope.launch {

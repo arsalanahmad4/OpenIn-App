@@ -13,7 +13,7 @@
             android:padding="12dp">
 
             <ImageView
-                android:id="@+id/ivIcon"
+                android:id="@+id/ivClicksIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -21,8 +21,8 @@
                 android:layout_marginBottom="16dp"/>
             
             <TextView
-                android:id="@+id/tvMainText"
-                android:layout_below="@id/ivIcon"
+                android:id="@+id/tvMainClicksText"
+                android:layout_below="@id/ivClicksIcon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -34,12 +34,12 @@
 
             <TextView
                 android:id="@+id/tvMainTextDesc"
-                android:layout_below="@id/tvMainText"
+                android:layout_below="@id/tvMainClicksText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
-                tool:text="Today’s clicks"
+                android:text="Today’s clicks"
                 android:textSize="12sp"
                 android:textColor="@color/light_trucks_text"/>
 

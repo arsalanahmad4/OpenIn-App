@@ -17,6 +17,10 @@
         android:visible="true" />
 
     <item
+        android:id="@+id/placeHolder"
+        android:title=""/>
+
+    <item
         android:id="@+id/campaignsFragment"
         android:actionLayout="@layout/fragment_campaigns"
         android:icon="@drawable/ic_campaigns"
