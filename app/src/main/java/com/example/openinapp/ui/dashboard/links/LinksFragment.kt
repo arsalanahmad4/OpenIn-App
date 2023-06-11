@@ -1,6 +1,7 @@
 package com.example.openinapp.ui.dashboard.links
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,10 +17,22 @@ import com.example.openinapp.databinding.FragmentLinksBinding
 import com.example.openinapp.ui.dashboard.links.adapter.RecentLinksAdapter
 import com.example.openinapp.ui.dashboard.links.adapter.TopLinksAdapter
 import com.example.openinapp.util.Resource
+import com.example.openinapp.util.getDay
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import android.graphics.drawable.GradientDrawable
+import com.example.openinapp.util.DrawableUtils
 
 class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Callbacks {
 
@@ -37,6 +50,10 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
     private var topLinksList : MutableList<TopLink> = ArrayList()
     private var dummyTopLinksList : MutableList<TopLink> = ArrayList()
 
+    lateinit var lineList : ArrayList<Entry>
+    lateinit var lineDataSet: LineDataSet
+    lateinit var lineData : LineData
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,11 +70,13 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
                 LinksViewModelProvider(requireActivity().application)
             )[LinksViewModel::class.java]
         linksViewModel.getAllThreads("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjU5MjcsImlhdCI6MTY3NDU1MDQ1MH0.dCkW0ox8tbjJA2GgUx2UEwNlbTZ7Rr38PVFJevYcXFI")
-        val chart = _binding?.chart as? LineChart
-        val data = getData(36, 100.0f)
+//        val chart = _binding?.chart as? LineChart
+//        val data = getData(36, 100.0f)
+//
+//        // add some transparency to the color with "& 0x90FFFFFF"
+//        setupChart(chart, data!!, requireContext().getColor(R.color.white))
 
-        // add some transparency to the color with "& 0x90FFFFFF"
-        setupChart(chart, data!!, requireContext().getColor(R.color.white))
+
         bindView()
         bindObserver()
     }
@@ -92,6 +111,72 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
                         }
                         topLinksAdapter?.notifyDataSetChanged()
                     }
+
+                    lineList = ArrayList() // Initialize the lineList
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                    val startDate = dateFormat.parse(response.data?.data?.overall_url_chart?.keys?.minOrNull())
+                    val endDate = dateFormat.parse(response.data?.data?.overall_url_chart?.keys?.maxOrNull())
+                    val calendar = Calendar.getInstance()
+
+                    response.data?.data?.overall_url_chart?.forEach { (key, value) ->
+                        val date = dateFormat.parse(key)
+                        calendar.time = date
+
+                        if (date in startDate..endDate) {
+                            val daysSinceStart = TimeUnit.MILLISECONDS.toDays(date.time - startDate.time).toFloat()
+                            lineList.add(Entry(daysSinceStart, value.toFloat()))
+                        }
+                    }
+
+                    lineDataSet = LineDataSet(lineList, null)
+                    lineDataSet.color = Color.parseColor("#0E6FFF")
+                    lineDataSet.setDrawValues(false) // Disable value text
+                    lineDataSet.setDrawCircles(false) // Disable drawing circles for data points
+                    lineDataSet.setDrawFilled(true)
+
+                    val startColor = Color.parseColor("#0E6FFF")
+                    val endColor = Color.TRANSPARENT
+                    val gradientFill = DrawableUtils.createGradientDrawable(startColor, endColor)
+                    lineDataSet.fillDrawable = gradientFill
+
+                    lineData = LineData(lineDataSet)
+                    _binding?.chart?.data = lineData
+
+                    val xAxis = _binding?.chart?.xAxis
+                    xAxis?.position = XAxis.XAxisPosition.BOTTOM // Set X-axis label position to the bottom
+                    xAxis?.setDrawAxisLine(true) // Enable drawing the axis line
+                    xAxis?.setDrawLabels(true) // Enable drawing the X-axis labels
+
+                    // Set custom labels for X-axis
+                    val labelCount = TimeUnit.MILLISECONDS.toDays(endDate.time - startDate.time).toInt()
+                    val xAxisValueFormatter = object : ValueFormatter() {
+                        private val format = SimpleDateFormat("d MMM", Locale.US)
+                        override fun getFormattedValue(value: Float): String {
+                            calendar.time = startDate
+                            calendar.add(Calendar.DAY_OF_YEAR, value.toInt())
+                            val date = calendar.time
+                            return if (value.toInt() % 5 == 0) {
+                                format.format(date)
+                            } else {
+                                ""
+                            }
+                        }
+                    }
+                    xAxis?.valueFormatter = xAxisValueFormatter
+                    xAxis?.granularity = 1f
+                    xAxis?.labelCount = labelCount
+
+                    val yAxisRight = _binding?.chart?.axisRight
+                    yAxisRight?.isEnabled = false // Disable right-side label
+
+                    _binding?.chart?.description?.isEnabled = false // Disable graph description
+
+                    _binding?.chart?.legend?.isEnabled = false // Disable legend
+
+                    _binding?.chart?.invalidate() // Refresh the chart
+
+                    // Rest of your code...
 
                 }
                 is Resource.Error -> {

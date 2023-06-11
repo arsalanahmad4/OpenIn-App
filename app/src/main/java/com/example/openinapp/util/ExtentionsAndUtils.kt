@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 
@@ -48,4 +49,8 @@ fun convertTimeStampToReadableTime(timeStamp: String?): String {
     parser.timeZone = TimeZone.getTimeZone("UTC")
     val formatter = SimpleDateFormat("hh:mm a dd MMM, yyyy")
     return formatter.format(parser.parse(timeStamp))
+}
+fun String.getDay(): Int {
+    val parts = this.split("-")
+    return parts[2].toInt()
 }
