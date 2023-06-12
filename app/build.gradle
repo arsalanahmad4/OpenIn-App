@@ -62,4 +62,14 @@ dependencies {
 
     //shimmer library
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+
+    //Testing libraries
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
+    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+    androidTestImplementation ("com.squareup.okhttp3:mockwebserver:4.10.0")
+    androidTestImplementation 'androidx.test:runner:1.1.0'
 }
