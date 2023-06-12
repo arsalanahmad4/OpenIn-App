@@ -50,11 +50,6 @@ fun convertTimeStampToReadableTime(timeStamp: String?): String {
     val formatter = SimpleDateFormat("dd MMM yyyy")
     return formatter.format(parser.parse(timeStamp))
 }
-fun String.getDay(): Int {
-    val parts = this.split("-")
-    return parts[2].toInt()
-}
-
 fun getGreetingMessage(): String {
     val calendar = Calendar.getInstance()
     return when (calendar.get(Calendar.HOUR_OF_DAY)) {

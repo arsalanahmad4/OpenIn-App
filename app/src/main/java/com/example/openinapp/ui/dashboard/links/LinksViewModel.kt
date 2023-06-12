@@ -19,19 +19,19 @@ class LinksViewModel(private val dashboardRepository: DashboardRepository, app: 
     private val _dashboardResponse = MutableAppropriateLiveData<Resource<DashboardResponse>>()
     val dashboardResponseResult: LiveData<Resource<DashboardResponse>> = _dashboardResponse
 
-    fun getAllThreads(authToken: String) {
+    fun getDashboardApiData() {
         viewModelScope.launch {
-            safeGetDashboardResponse(authToken)
+            safeGetDashboardResponse()
         }
     }
-    private suspend fun safeGetDashboardResponse(authToken: String) {
+    private suspend fun safeGetDashboardResponse() {
         _dashboardResponse.postValue(Resource.Loading())
         try {
             val connectivityManager = getApplication<OpeninApplication>().getSystemService(
                 Context.CONNECTIVITY_SERVICE
             ) as ConnectivityManager
             if (hasInternetConnection(connectivityManager)) {
-                val response = dashboardRepository.getApiResponse(authToken)
+                val response = dashboardRepository.getDashboardApiResponse()
                 _dashboardResponse.postValue(handleDashboardApiResponse(response))
             } else {
                 _dashboardResponse.postValue(Resource.Error("No internet connection"))

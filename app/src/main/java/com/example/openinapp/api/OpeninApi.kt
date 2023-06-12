@@ -8,5 +8,5 @@ import retrofit2.http.Header
 interface OpeninApi {
 
     @GET("api/v1/dashboardNew")
-    suspend fun dashboardApi(@Header("Authorization") auth: String): Response<DashboardResponse>
+    suspend fun dashboardApi(): Response<DashboardResponse>
 }

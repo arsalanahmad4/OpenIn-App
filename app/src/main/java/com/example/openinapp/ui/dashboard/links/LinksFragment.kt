@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -67,7 +68,7 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
                 this,
                 LinksViewModelProvider(requireActivity().application)
             )[LinksViewModel::class.java]
-        linksViewModel.getAllThreads("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjU5MjcsImlhdCI6MTY3NDU1MDQ1MH0.dCkW0ox8tbjJA2GgUx2UEwNlbTZ7Rr38PVFJevYcXFI")
+        linksViewModel.getDashboardApiData()
 
         bindView()
         bindObserver()
@@ -177,6 +178,7 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
                 }
                 is Resource.Error -> {
                     handleShimmer(false)
+                    Toast.makeText(requireContext(),"Error loading data. Please try again later!",Toast.LENGTH_LONG).show()
                 }
                 is Resource.Loading -> {
                     handleShimmer(true)
