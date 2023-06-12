@@ -47,10 +47,21 @@ fun convertTimeStampToDateObject(timeStamp: String?) : Date?{
 fun convertTimeStampToReadableTime(timeStamp: String?): String {
     val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     parser.timeZone = TimeZone.getTimeZone("UTC")
-    val formatter = SimpleDateFormat("hh:mm a dd MMM, yyyy")
+    val formatter = SimpleDateFormat("dd MMM yyyy")
     return formatter.format(parser.parse(timeStamp))
 }
 fun String.getDay(): Int {
     val parts = this.split("-")
     return parts[2].toInt()
+}
+
+fun getGreetingMessage(): String {
+    val calendar = Calendar.getInstance()
+    return when (calendar.get(Calendar.HOUR_OF_DAY)) {
+        in 0..4 -> "Good Night"
+        in 5..11 -> "Good Morning"
+        in 12..15 -> "Good Afternoon"
+        in 16..20 -> "Good Evening"
+        else -> "Good Night"
+    }
 }

@@ -1,16 +1,18 @@
 package com.example.openinapp.ui.dashboard.links.adapter
 
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.openinapp.R
 import com.example.openinapp.data.model.TopLink
+import com.example.openinapp.util.convertTimeStampToReadableTime
 
 class TopLinksAdapter(private val mFeedList: List<TopLink>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface Callbacks {
         fun onClickLoadMoreTopLinks()
-        fun onTopLinksItemClicked(genreName:String)
+        fun onTopLinksItemClicked(topLink:TopLink)
     }
 
     private var mCallbacks: Callbacks? = null
@@ -38,9 +40,20 @@ class TopLinksAdapter(private val mFeedList: List<TopLink>) : RecyclerView.Adapt
             val elementsViewHolder = holder as ElementsViewHolder?
             val elements = mFeedList[position]
             elementsViewHolder?.itemView?.setOnClickListener {
-                if (mCallbacks != null) mCallbacks!!.onTopLinksItemClicked(elements.app)
+                if (mCallbacks != null) mCallbacks!!.onTopLinksItemClicked(elements)
             }
-            elementsViewHolder!!.name.text = elements.smart_link
+            val maxLength = 18
+            if (elements.title.length > maxLength) {
+                elementsViewHolder!!.name.text = elements.title.substring(0, maxLength - 3) + "..."
+                elementsViewHolder!!.name.ellipsize = TextUtils.TruncateAt.END
+            } else {
+                elementsViewHolder!!.name.text = elements.title
+                elementsViewHolder!!.name.ellipsize = null
+            }
+
+            elementsViewHolder!!.clicks.text = elements.total_clicks.toString()
+            elementsViewHolder!!.date.text = convertTimeStampToReadableTime(elements.created_at)
+            elementsViewHolder!!.link.text = elements.web_link
         }
     }
 
@@ -80,9 +93,15 @@ class TopLinksAdapter(private val mFeedList: List<TopLink>) : RecyclerView.Adapt
         itemView!!
     ) {
         val name: TextView
+        val clicks : TextView
+        val date :TextView
+        val link:TextView
 
         init {
             name = itemView!!.findViewById<View>(R.id.tvMainText) as TextView
+            clicks = itemView!!.findViewById<View>(R.id.tvClickNumber) as TextView
+            date = itemView!!.findViewById<View>(R.id.tvDate) as TextView
+            link = itemView!!.findViewById<View>(R.id.tvLink) as TextView
         }
     }
 

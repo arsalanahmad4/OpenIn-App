@@ -38,7 +38,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightgrey"
+        android:background="@drawable/top_curved_corner_box"
         android:fillViewport="true">
 
         <LinearLayout
@@ -46,138 +46,228 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+            <include
+                android:id="@+id/shimmerFrameLayout"
+                layout="@layout/shimmer_loading_layout"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="16dp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <include
-                        android:id="@+id/layoutClicks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        layout="@layout/total_clicks_item"/>
-
-                    <include
-                        android:id="@+id/layoutLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        layout="@layout/top_location_item"/>
-                    <include
-                        android:id="@+id/layoutSource"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        layout="@layout/top_source_item"/>
-                </LinearLayout>
-
-            </HorizontalScrollView>
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <LinearLayout
+                android:id="@+id/mainLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rectangular_grey_box_bg"
-                android:layout_margin="16dp"
-                android:gravity="center_horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/tvGreetings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View Analytics"
-                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/light_trucks_text"
                     android:textSize="14sp"
-                    android:drawableStart="@drawable/ic_analytics"
-                    android:drawablePadding="8dp"/>
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+                    tools:text="Good Morning" />
 
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/toggleGroup"
+                <TextView
+                    android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/ivSearch"
-                    app:checkedButton="@id/btnTopLinks"
-                    app:selectionRequired="true"
-                    app:singleSelection="true"
-                    android:divider="@drawable/divider"
-                    android:showDividers="middle">
+                    android:layout_marginStart="16dp"
+                    android:drawablePadding="8dp"
+                    android:text="Ajay Manva"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:drawableEndCompat="@drawable/ic_greeting" />
 
-                    <Button
-                        android:id="@+id/btnTopLinks"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Top Links"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/btnRecentLinks"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recent Links"
-                        android:textAllCaps="false" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <ImageView
-                    android:id="@+id/ivSearch"
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvOverview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="Overview"
+                                android:textColor="@color/light_trucks_text"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvDuration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/rectangular_grey_box_bg"
+                                android:drawablePadding="8dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                app:drawableEndCompat="@drawable/ic_clock"
+                                tools:text="22 Aug - 23 Sep" />
+                        </RelativeLayout>
+
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="160dp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/layoutClicks"
+                            layout="@layout/total_clicks_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp" />
+
+                        <include
+                            android:id="@+id/layoutLocation"
+                            layout="@layout/top_location_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp" />
+
+                        <include
+                            android:id="@+id/layoutSource"
+                            layout="@layout/top_source_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp" />
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:background="@drawable/rectangular_grey_box_bg"
-                    android:src="@drawable/ic_search"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTopLinks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_analytics"
+                        android:drawablePadding="8dp"
+                        android:text="View Analytics"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRecentLinks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggleGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/ivSearch"
+                        android:divider="@drawable/divider"
+                        android:showDividers="middle"
+                        app:checkedButton="@id/btnTopLinks"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <Button
+                            android:id="@+id/btnTopLinks"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Top Links"
+                            android:textAllCaps="false" />
+
+                        <Button
+                            android:id="@+id/btnRecentLinks"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Recent Links"
+                            android:textAllCaps="false" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/rectangular_grey_box_bg"
+                        android:src="@drawable/ic_search" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTopLinks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecentLinks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="gone" />
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Talk with us"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:background="@drawable/rectangular_green_box"
-                android:drawableStart="@drawable/ic_whatsapp"
-                android:drawablePadding="8dp"
-                android:layout_margin="16dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/rectangular_green_box"
+                    android:drawableStart="@drawable/ic_whatsapp"
+                    android:drawablePadding="8dp"
+                    android:text="Talk with us"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Frequently Asked Questions"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:background="@drawable/rectangular_blue_box"
-                android:drawableStart="@drawable/ic_question_mark"
-                android:drawablePadding="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="64dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@drawable/rectangular_blue_box"
+                    android:drawableStart="@drawable/ic_question_mark"
+                    android:drawablePadding="8dp"
+                    android:text="Frequently Asked Questions"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

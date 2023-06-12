@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
-            tool:text="123"
+            android:text="-"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp"/>

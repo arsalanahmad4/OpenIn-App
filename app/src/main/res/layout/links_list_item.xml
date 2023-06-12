@@ -38,6 +38,8 @@
                 android:layout_toEndOf="@id/ivIcon"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:maxLength="18"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 tool:text="Sample link name..." />

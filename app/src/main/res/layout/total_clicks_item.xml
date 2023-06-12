@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="120dp"
-    android:layout_height="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
     app:cardCornerRadius="8dp">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/ivClicksIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_total_clicks" />
+
+        <TextView
+            android:id="@+id/tvMainClicksText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:padding="12dp">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivClicksIcon"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="0" />
 
-            <ImageView
-                android:id="@+id/ivClicksIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/ic_total_clicks"
-                android:layout_marginBottom="16dp"/>
-            
-            <TextView
-                android:id="@+id/tvMainClicksText"
-                android:layout_below="@id/ivClicksIcon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                tool:text="123"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvMainTextDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMainClicksText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Today’s clicks"
+            android:textColor="@color/light_trucks_text"
+            android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tvMainTextDesc"
-                android:layout_below="@id/tvMainClicksText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Today’s clicks"
-                android:textSize="12sp"
-                android:textColor="@color/light_trucks_text"/>
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>
