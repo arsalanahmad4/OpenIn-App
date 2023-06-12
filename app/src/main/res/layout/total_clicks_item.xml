@@ -27,10 +27,11 @@
             android:layout_below="@id/ivClicksIcon"
             android:layout_marginBottom="4dp"
             android:ellipsize="end"
+            android:fontFamily="@font/figtree_semibold"
             android:maxLines="1"
+            android:text="0"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:text="0" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvMainTextDesc"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvMainClicksText"
             android:ellipsize="end"
+            android:fontFamily="@font/figtree_regular"
             android:maxLines="1"
             android:text="Today’s clicks"
             android:textColor="@color/light_trucks_text"

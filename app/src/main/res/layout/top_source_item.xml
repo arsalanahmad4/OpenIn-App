@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="120dp"
-    android:layout_height="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
     app:cardCornerRadius="8dp">
 
     <RelativeLayout
@@ -17,31 +17,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_source"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_source" />
 
         <TextView
             android:id="@+id/tvMainSourceText"
-            android:layout_below="@id/ivSourceIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:layout_below="@id/ivSourceIcon"
+            android:layout_marginBottom="4dp"
             android:ellipsize="end"
+            android:fontFamily="@font/figtree_semibold"
+            android:maxLines="1"
             android:text="-"
-            android:textSize="14sp"
             android:textColor="@color/black"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvMainTextDesc"
-            android:layout_below="@id/tvMainSourceText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:layout_below="@id/tvMainSourceText"
             android:ellipsize="end"
+            android:fontFamily="@font/figtree_regular"
+            android:maxLines="1"
             android:text="Top Source"
-            android:textSize="12sp"
-            android:textColor="@color/light_trucks_text"/>
+            android:textColor="@color/light_trucks_text"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
