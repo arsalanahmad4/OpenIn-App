@@ -106,74 +106,7 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
                         topLinksAdapter?.notifyDataSetChanged()
                     }
 
-                    lineList = ArrayList() // Initialize the lineList
-
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-                    val startDate = dateFormat.parse(response.data?.data?.overall_url_chart?.keys?.minOrNull())
-                    val endDate = dateFormat.parse(response.data?.data?.overall_url_chart?.keys?.maxOrNull())
-                    val calendar = Calendar.getInstance()
-
-                    val textFormat = SimpleDateFormat("d MMM", Locale.US)
-                    _binding?.tvDuration?.text = textFormat.format(startDate) + "-" + textFormat.format(endDate)
-
-                    response.data?.data?.overall_url_chart?.forEach { (key, value) ->
-                        val date = dateFormat.parse(key)
-                        calendar.time = date
-
-                        if (date in startDate..endDate) {
-                            val daysSinceStart = TimeUnit.MILLISECONDS.toDays(date.time - startDate.time).toFloat()
-                            lineList.add(Entry(daysSinceStart, value.toFloat()))
-                        }
-                    }
-
-                    lineDataSet = LineDataSet(lineList, null)
-                    lineDataSet.color = Color.parseColor("#0E6FFF")
-                    lineDataSet.setDrawValues(false) // Disable value text
-                    lineDataSet.setDrawCircles(false) // Disable drawing circles for data points
-                    lineDataSet.setDrawFilled(true)
-
-                    val startColor = Color.parseColor("#0E6FFF")
-                    val endColor = Color.TRANSPARENT
-                    val gradientFill = DrawableUtils.createGradientDrawable(startColor, endColor)
-                    lineDataSet.fillDrawable = gradientFill
-
-                    lineData = LineData(lineDataSet)
-                    _binding?.chart?.data = lineData
-
-                    val xAxis = _binding?.chart?.xAxis
-                    xAxis?.position = XAxis.XAxisPosition.BOTTOM // Set X-axis label position to the bottom
-                    xAxis?.setDrawAxisLine(true) // Enable drawing the axis line
-                    xAxis?.setDrawLabels(true) // Enable drawing the X-axis labels
-
-                    // Set custom labels for X-axis
-                    val labelCount = TimeUnit.MILLISECONDS.toDays(endDate.time - startDate.time).toInt()
-                    val xAxisValueFormatter = object : ValueFormatter() {
-                        private val format = SimpleDateFormat("d MMM", Locale.US)
-                        override fun getFormattedValue(value: Float): String {
-                            calendar.time = startDate
-                            calendar.add(Calendar.DAY_OF_YEAR, value.toInt())
-                            val date = calendar.time
-                            return if (value.toInt() % 5 == 0) {
-                                format.format(date)
-                            } else {
-                                ""
-                            }
-                        }
-                    }
-                    xAxis?.valueFormatter = xAxisValueFormatter
-                    xAxis?.granularity = 1f
-                    xAxis?.labelCount = labelCount
-
-                    val yAxisRight = _binding?.chart?.axisRight
-                    yAxisRight?.isEnabled = false // Disable right-side label
-
-                    _binding?.chart?.description?.isEnabled = false // Disable graph description
-
-                    _binding?.chart?.legend?.isEnabled = false // Disable legend
-
-                    _binding?.chart?.invalidate() // Refresh the chart
-
-                    // Rest of your code...
+                    setGraphPropertiesAndValue(response.data?.data?.overall_url_chart)
 
                 }
                 is Resource.Error -> {
@@ -224,6 +157,76 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
         _binding?.tvGreetings?.text = getGreetingMessage()
     }
 
+    private fun setGraphPropertiesAndValue(urlChartResponse:Map<String,Int>?){
+        lineList = ArrayList() // Initialize the lineList
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val startDate = dateFormat.parse(urlChartResponse?.keys?.minOrNull())
+        val endDate = dateFormat.parse(urlChartResponse?.keys?.maxOrNull())
+        val calendar = Calendar.getInstance()
+
+        val textFormat = SimpleDateFormat("d MMM", Locale.US)
+        _binding?.tvDuration?.text = textFormat.format(startDate) + "-" + textFormat.format(endDate)
+
+        urlChartResponse?.forEach { (key, value) ->
+            val date = dateFormat.parse(key)
+            calendar.time = date
+
+            if (date in startDate..endDate) {
+                val daysSinceStart = TimeUnit.MILLISECONDS.toDays(date.time - startDate.time).toFloat()
+                lineList.add(Entry(daysSinceStart, value.toFloat()))
+            }
+        }
+
+        lineDataSet = LineDataSet(lineList, null)
+        lineDataSet.color = Color.parseColor("#0E6FFF")
+        lineDataSet.setDrawValues(false) // Disable value text
+        lineDataSet.setDrawCircles(false) // Disable drawing circles for data points
+        lineDataSet.setDrawFilled(true)
+
+        val startColor = Color.parseColor("#0E6FFF")
+        val endColor = Color.TRANSPARENT
+        val gradientFill = DrawableUtils.createGradientDrawable(startColor, endColor)
+        lineDataSet.fillDrawable = gradientFill
+
+        lineData = LineData(lineDataSet)
+        _binding?.chart?.data = lineData
+
+        val xAxis = _binding?.chart?.xAxis
+        xAxis?.position = XAxis.XAxisPosition.BOTTOM // Set X-axis label position to the bottom
+        xAxis?.setDrawAxisLine(true) // Enable drawing the axis line
+        xAxis?.setDrawLabels(true) // Enable drawing the X-axis labels
+
+        // Set custom labels for X-axis
+        val labelCount = TimeUnit.MILLISECONDS.toDays(endDate.time - startDate.time).toInt()
+        val xAxisValueFormatter = object : ValueFormatter() {
+            private val format = SimpleDateFormat("d MMM", Locale.US)
+            override fun getFormattedValue(value: Float): String {
+                calendar.time = startDate
+                calendar.add(Calendar.DAY_OF_YEAR, value.toInt())
+                val date = calendar.time
+                return if (value.toInt() % 5 == 0) {
+                    format.format(date)
+                } else {
+                    ""
+                }
+            }
+        }
+        xAxis?.valueFormatter = xAxisValueFormatter
+        xAxis?.granularity = 1f
+        xAxis?.labelCount = labelCount
+
+        val yAxisRight = _binding?.chart?.axisRight
+        yAxisRight?.isEnabled = false // Disable right-side label
+
+        _binding?.chart?.description?.isEnabled = false // Disable graph description
+
+        _binding?.chart?.legend?.isEnabled = false // Disable legend
+
+        _binding?.chart?.invalidate() // Refresh the chart
+
+        // Rest of your code...
+    }
     private fun handleShimmer(isShimmering : Boolean){
         if(isShimmering){
             _binding?.shimmerFrameLayout?.root?.visibility = View.VISIBLE
@@ -235,7 +238,7 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onClickLoadMore() {
+    override fun onClickLoadMoreRecentLinks() {
         recentLinksAdapter!!.setWithFooter(false) // hide footer
 
         //dummyList.clear()
@@ -247,7 +250,7 @@ class LinksFragment : Fragment(),RecentLinksAdapter.Callbacks,TopLinksAdapter.Ca
         recentLinksAdapter!!.notifyDataSetChanged()
     }
 
-    override fun onItemClicked(recentLink:RecentLink) {
+    override fun onRecentLinksItemClicked(recentLink:RecentLink) {
         val clipboardManager = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         // Create a new ClipData object

@@ -12,8 +12,8 @@ import com.example.openinapp.util.convertTimeStampToReadableTime
 
 class RecentLinksAdapter(private val mFeedList: List<RecentLink>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface Callbacks {
-        fun onClickLoadMore()
-        fun onItemClicked(recentLink:RecentLink)
+        fun onClickLoadMoreRecentLinks()
+        fun onRecentLinksItemClicked(recentLink:RecentLink)
     }
 
     private var mCallbacks: Callbacks? = null
@@ -36,12 +36,12 @@ class RecentLinksAdapter(private val mFeedList: List<RecentLink>) : RecyclerView
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is LoadMoreViewHolder) {
-            holder.itemView.setOnClickListener { if (mCallbacks != null) mCallbacks!!.onClickLoadMore() }
+            holder.itemView.setOnClickListener { if (mCallbacks != null) mCallbacks!!.onClickLoadMoreRecentLinks() }
         } else {
             val elementsViewHolder = holder as ElementsViewHolder?
             val elements = mFeedList[position]
             elementsViewHolder?.itemView?.setOnClickListener {
-                if (mCallbacks != null) mCallbacks!!.onItemClicked(elements)
+                if (mCallbacks != null) mCallbacks!!.onRecentLinksItemClicked(elements)
             }
 
             val maxLength = 18
