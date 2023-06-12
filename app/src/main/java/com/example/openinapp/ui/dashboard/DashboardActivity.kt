@@ -14,7 +14,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard_v2)
+        setContentView(R.layout.activity_dashboard)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bttm_nav)
         bottomNavigationView.background = null
         bottomNavigationView.menu.getItem(2).isEnabled = false
